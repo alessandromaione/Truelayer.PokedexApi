@@ -10,6 +10,8 @@ namespace Pokedex.Api
 
             builder.Services.AddControllers();
 
+            builder.Services.AddSwaggerGen();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -18,6 +20,11 @@ namespace Pokedex.Api
 
             app.UseAuthorization();
 
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
 
             app.MapControllers();
 
