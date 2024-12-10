@@ -1,3 +1,6 @@
+using Pokedex.Core;
+using Pokedex.Infrastructure;
+
 namespace Pokedex.Api
 {
     public class Program
@@ -11,6 +14,11 @@ namespace Pokedex.Api
             builder.Services.AddControllers();
 
             builder.Services.AddSwaggerGen();
+
+            builder
+                .Services
+                .AddCore()
+                .AddInfrastructure();
 
             var app = builder.Build();
 
