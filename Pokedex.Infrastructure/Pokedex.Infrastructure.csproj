@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Pokedex.Core\Pokedex.Core.csproj" />
+  </ItemGroup>
+
 </Project>
