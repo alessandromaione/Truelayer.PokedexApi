@@ -4,6 +4,6 @@ namespace Pokedex.Core.Abstractions.HttpClients
 {
     public interface IPokeApiClient
     {
-        Task<PokemonSpecies> GetAsync(string name);
+        Task<PokemonSpecies?> GetAsync(string name);
     }
 }

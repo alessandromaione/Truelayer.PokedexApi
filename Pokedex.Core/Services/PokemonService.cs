@@ -13,7 +13,7 @@ namespace Pokedex.Core.Services
             _pokeApiClient = pokeApiClient;
         }
 
-        public Task<PokemonSpecies> GetAsync(string pokemonName)
+        public Task<PokemonSpecies?> GetAsync(string pokemonName)
         {
             return _pokeApiClient.GetAsync(pokemonName);
         }

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using Pokedex.Api.Results;
 using Pokedex.Core.Abstractions.Services;
 using Pokedex.Core.Models;
 
@@ -9,18 +11,25 @@ namespace Pokedex.Api.Controllers
     public class PokemonController : ControllerBase
     {
         private readonly IPokemonService _pokemonService;
+        private readonly IMapper _mapper;
 
-        public PokemonController(IPokemonService pokemonService) 
+        public PokemonController(IPokemonService pokemonService, IMapper mapper) 
         {
             _pokemonService = pokemonService;
+            _mapper = mapper;
         }
 
-        [HttpGet]
-        public async Task<PokemonSpecies> GetAsync()
+        [HttpGet("{pokemonName}")]
+        public async Task<IActionResult> GetAsync(string pokemonName)
         {
-            var pok = await _pokemonService.GetAsync("ditto");
+            var pokemon = await _pokemonService.GetAsync(pokemonName);
 
-            return pok;
+            if(pokemon == null)
+            {
+                return BadRequest($"Pokemon {pokemonName} not found");
+            }
+
+            return Ok(_mapper.Map<Pokemon>(pokemon));
         }
     }
 }

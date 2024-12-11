@@ -13,10 +13,9 @@ namespace Pokedex.Api
 
             builder.Services.AddControllers();
 
-            builder.Services.AddSwaggerGen();
-
             builder
                 .Services
+                .AddApi()
                 .AddCore()
                 .AddInfrastructure();
 

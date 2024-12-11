@@ -1,4 +1,6 @@
-﻿using System.Text.Json.Serialization;
+﻿using Pokedex.Core.Extensions;
+using System.ComponentModel;
+using System.Text.Json.Serialization;
 
 namespace Pokedex.Core.Models
 {
@@ -13,7 +15,7 @@ namespace Pokedex.Core.Models
         public Habitat Habitat { get; set; }
 
         [JsonPropertyName("flavor_text_entries")]
-        public IEnumerable<FlavorTextEntry> FlavorTextEntries { get; set; }
+        public IEnumerable<FlavorTextEntry> FlavorTextEntries { get; set; } = [];
 
         [JsonPropertyName("base_happiness")]
         public int BaseHappiness { get; set; }
@@ -41,5 +43,9 @@ namespace Pokedex.Core.Models
 
         [JsonPropertyName("is_mythical")]
         public bool IsMythical { get; set; }
+
+        public string? Description
+           => FlavorTextEntries
+            .FirstOrDefault(s => s.HasLanguage && s.Language.Name.EqualsIgnoreCase(Constants.Language.English))?.FlavorText;
     }
 }
