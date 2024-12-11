@@ -8,8 +8,7 @@ namespace Pokedex.Api.Profiles
     {
         public AutoMapperProfile()
         {
-            CreateMap<PokemonSpecies, Pokemon>()
-                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
+            CreateMap<PokemonSpecies, Pokemon>();
         }
     }
 }
