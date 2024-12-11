@@ -6,17 +6,16 @@ namespace Pokedex.Infrastructure.ExternalClients
 {
     public class PokeApiClient : IPokeApiClient
     {
-        private readonly HttpClient _httpClient;
+        private readonly IHttpClientWrapper _httpClientWrapper;
 
-        public PokeApiClient(HttpClient httpClient)
+        public PokeApiClient(IHttpClientWrapper httpClientWrapper)
         {
-            _httpClient = httpClient;
-            _httpClient.BaseAddress = new Uri("https://pokeapi.co/api/v2/");
+            _httpClientWrapper = httpClientWrapper;
         }
 
-        public Task<PokemonSpecies> GetAsync(string pokemonName)
+        public Task<PokemonSpecies?> GetAsync(string pokemonName)
         {
-            return _httpClient.GetFromJsonAsync<PokemonSpecies>($"pokemon-species/{pokemonName}");
+            return _httpClientWrapper.ReadAsync<PokemonSpecies>($"pokemon-species/{pokemonName}");
         }
     }
 }

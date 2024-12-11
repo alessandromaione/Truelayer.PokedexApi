@@ -31,5 +31,19 @@ namespace Pokedex.UnitTest.Core.Services
             Assert.NotNull(pokemon);
             Assert.True(pokemon.Name.Equals(existingPokemon.Name, StringComparison.InvariantCultureIgnoreCase));
         }
+
+        [Fact]
+        public async Task Get_WithInvalidPokemonName_ShouldReturnNull()
+        {
+            PokemonSpecies? notExistingPokemon = null;
+
+            _pokeApiClientMoq
+                .Setup(s => s.GetAsync(It.IsAny<string>()))
+                .ReturnsAsync(notExistingPokemon);
+
+            var pokemon = await _pokemonService.GetAsync("fakePokemon");
+
+            Assert.Null(pokemon);
+        }
     }
 }
