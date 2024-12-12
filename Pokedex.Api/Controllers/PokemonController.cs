@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Pokedex.Api.Results;
 using Pokedex.Core.Abstractions.Services;
-using Pokedex.Core.Models;
 
 namespace Pokedex.Api.Controllers
 {
@@ -24,12 +22,34 @@ namespace Pokedex.Api.Controllers
         {
             var pokemon = await _pokemonService.GetAsync(pokemonName);
 
-            if(pokemon == null)
+            if(!pokemon.IsValid)
+            {
+                throw pokemon.Exception;
+            }
+            else if (pokemon.IsNotFound)
             {
                 return BadRequest($"Pokemon {pokemonName} not found");
             }
 
-            return Ok(_mapper.Map<Pokemon>(pokemon));
+            return Ok(pokemon.ApiValue);
         }
+
+        [HttpGet("translated/{pokemonName}")]
+        public async Task<IActionResult> GetTranslatedAsync(string pokemonName)
+        {
+            var pokemon = await _pokemonService.GetTranslatedAsync(pokemonName);
+
+            if (!pokemon.IsValid)
+            {
+                throw pokemon.Exception;
+            }
+            else if (pokemon.IsNotFound)
+            {
+                return BadRequest($"Pokemon {pokemonName} not found");
+            }
+
+            return Ok(pokemon.ApiValue);
+        }
+
     }
 }

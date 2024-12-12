@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using Pokedex.Core.Extensions;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 
 namespace Pokedex.Core.Models
@@ -13,5 +14,8 @@ namespace Pokedex.Core.Models
         [MemberNotNullWhen(true, nameof(Language))]
         public bool HasLanguage
             => Language != null;
+
+        public bool IsEnglish
+            => HasLanguage && Language.Name.EqualsIgnoreCase(Constants.Language.English);
     }
 }

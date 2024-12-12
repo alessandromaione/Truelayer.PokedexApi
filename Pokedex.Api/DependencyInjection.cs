@@ -1,12 +1,9 @@
-﻿using Pokedex.Api.Profiles;
-
-namespace Pokedex.Api
+﻿namespace Pokedex.Api
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddApi(this IServiceCollection services) 
+        public static IServiceCollection AddApi(this IServiceCollection services)
             => services
-            .AddSwaggerGen()
-            .AddAutoMapper(typeof(AutoMapperProfile));
+            .AddSwaggerGen();
     }
 }

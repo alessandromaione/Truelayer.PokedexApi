@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Http;
+using Pokedex.Core;
 using Pokedex.Core.Abstractions.HttpClients;
 using Pokedex.Infrastructure.ExternalClients;
 
@@ -12,21 +14,18 @@ namespace Pokedex.Infrastructure
 
         private static IServiceCollection AddClients(this IServiceCollection services)
         {
-            services.AddHttpClient("PokeApiClient", (client) =>
+            services.AddHttpClient(Constants.ApiName.PokeApiClient, (client) =>
             {
                 client.BaseAddress = new Uri("https://pokeapi.co/api/v2/");
             });
 
-            services.AddTransient<IHttpClientWrapper>(ctx =>
+            services.AddHttpClient(Constants.ApiName.FunTranslationClient, (client) =>
             {
-                var httpClient = ctx
-                .GetRequiredService<IHttpClientFactory>()
-                .CreateClient("PokeApiClient");
-
-                return new HttpClientWrapper(httpClient);
+                client.BaseAddress = new Uri("https://api.funtranslations.com/translate/");
             });
 
             services.AddTransient<IPokeApiClient, PokeApiClient>();
+            services.AddTransient<IFunTranslationsClient, FunTranslationsClient>();
 
             return services;
         }

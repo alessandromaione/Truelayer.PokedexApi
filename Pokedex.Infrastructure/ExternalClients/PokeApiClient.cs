@@ -1,21 +1,22 @@
-﻿using Pokedex.Core.Abstractions.HttpClients;
+﻿using Pokedex.Core;
+using Pokedex.Core.Abstractions.HttpClients;
 using Pokedex.Core.Models;
-using System.Net.Http.Json;
+using Pokedex.Core.Results;
 
 namespace Pokedex.Infrastructure.ExternalClients
 {
     public class PokeApiClient : IPokeApiClient
     {
-        private readonly IHttpClientWrapper _httpClientWrapper;
+        private readonly HttpClient _httpClient;
 
-        public PokeApiClient(IHttpClientWrapper httpClientWrapper)
+        public PokeApiClient(IHttpClientFactory httpClientFactory)
         {
-            _httpClientWrapper = httpClientWrapper;
+            _httpClient = httpClientFactory.CreateClient(Constants.ApiName.PokeApiClient);
         }
 
-        public Task<PokemonSpecies?> GetAsync(string pokemonName)
+        public async Task<ApiResult<PokemonSpecies>> GetAsync(string pokemonName)
         {
-            return _httpClientWrapper.ReadAsync<PokemonSpecies>($"pokemon-species/{pokemonName}");
+            return await _httpClient.ApiReadAsync<PokemonSpecies>($"pokemon-species/{pokemonName}");
         }
     }
 }
