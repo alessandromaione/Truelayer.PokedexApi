@@ -1,5 +1,4 @@
 ﻿using Pokedex.Core.Extensions;
-using System.ComponentModel;
 using System.Text.Json.Serialization;
 
 namespace Pokedex.Core.Models
@@ -46,6 +45,6 @@ namespace Pokedex.Core.Models
 
         public string? Description
            => FlavorTextEntries
-            .FirstOrDefault(s => s.HasLanguage && s.Language.Name.EqualsIgnoreCase(Constants.Language.English))?.FlavorText;
+            .FirstOrDefault(s => s.IsEnglish)?.FlavorText.CleanUp();
     }
 }

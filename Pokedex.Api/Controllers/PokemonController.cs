@@ -9,12 +9,10 @@ namespace Pokedex.Api.Controllers
     public class PokemonController : ControllerBase
     {
         private readonly IPokemonService _pokemonService;
-        private readonly IMapper _mapper;
 
-        public PokemonController(IPokemonService pokemonService, IMapper mapper) 
+        public PokemonController(IPokemonService pokemonService) 
         {
             _pokemonService = pokemonService;
-            _mapper = mapper;
         }
 
         [HttpGet("{pokemonName}")]
@@ -22,14 +20,14 @@ namespace Pokedex.Api.Controllers
         {
             var pokemon = await _pokemonService.GetAsync(pokemonName);
 
-            if(!pokemon.IsValid)
-            {
-                throw pokemon.Exception;
-            }
-            else if (pokemon.IsNotFound)
+            if (pokemon.IsNotFound)
             {
                 return BadRequest($"Pokemon {pokemonName} not found");
             }
+            else if (!pokemon.IsValid)
+            {
+                throw pokemon.Exception;
+            }  
 
             return Ok(pokemon.ApiValue);
         }
@@ -39,13 +37,13 @@ namespace Pokedex.Api.Controllers
         {
             var pokemon = await _pokemonService.GetTranslatedAsync(pokemonName);
 
-            if (!pokemon.IsValid)
-            {
-                throw pokemon.Exception;
-            }
-            else if (pokemon.IsNotFound)
+            if (pokemon.IsNotFound)
             {
                 return BadRequest($"Pokemon {pokemonName} not found");
+            }
+            else if (!pokemon.IsValid)
+            {
+                throw pokemon.Exception;
             }
 
             return Ok(pokemon.ApiValue);

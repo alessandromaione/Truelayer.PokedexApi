@@ -8,6 +8,7 @@ namespace Pokedex.Api
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            var configuration = builder.Configuration;
 
             // Add services to the container.
 
@@ -17,7 +18,7 @@ namespace Pokedex.Api
                 .Services
                 .AddApi()
                 .AddCore()
-                .AddInfrastructure();
+                .AddInfrastructure(configuration);
 
             var app = builder.Build();
 
@@ -27,11 +28,10 @@ namespace Pokedex.Api
 
             app.UseAuthorization();
 
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+            app.UseSwagger();
+            app.UseSwaggerUI();
+
+            app.UseExceptionHandler();
 
             app.MapControllers();
 

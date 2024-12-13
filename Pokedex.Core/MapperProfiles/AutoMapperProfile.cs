@@ -8,7 +8,9 @@ namespace Pokedex.Core.MapperProfiles
     {
         public AutoMapperProfile()
         {
-            CreateMap<PokemonSpecies, PokemonResult>();
+            CreateMap<PokemonSpecies, PokemonResult>()
+                .ForMember(dest => dest.Habitat, opt => opt.MapFrom(src => src.Habitat != null ? src.Habitat.Name : string.Empty));
+            
             CreateMap(typeof(ApiResult<>), typeof(ApiResult<>));
         }
     }

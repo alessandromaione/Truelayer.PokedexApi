@@ -4,37 +4,37 @@ namespace Pokedex.Core.Results
 {
     public class ApiResult<T>
     {
-        private enum ApiResponse
+        public enum ApiResponseType
         {
             Success,
             Error,
             NotFound
         }
 
-        private readonly ApiResponse _apiResponse;
-
+        public ApiResponseType ApiResponse { get; set; }
+        
         public T ApiValue;
         public Exception? Exception;
 
         [MemberNotNullWhen(false, nameof(Exception))]
         public bool IsValid
-            => _apiResponse == ApiResponse.Success;
+            => ApiResponse == ApiResponseType.Success;
 
         [MemberNotNullWhen(true, nameof(Exception))]
         public bool IsNotFound
-            => _apiResponse == ApiResponse.NotFound;
+            => ApiResponse == ApiResponseType.NotFound;
 
         public ApiResult()
         {
             ApiValue = default!;
-            _apiResponse = ApiResponse.Error;
+            ApiResponse = ApiResponseType.Error;
             Exception = null;
         }
 
         public ApiResult(T value)
         {
             ApiValue = value;
-            _apiResponse = ApiResponse.Success;
+            ApiResponse = ApiResponseType.Success;
             Exception = null;
         }
 
@@ -42,31 +42,29 @@ namespace Pokedex.Core.Results
         {
             ApiValue = default!;
             Exception = httpRequestException;
-            _apiResponse = httpRequestException.StatusCode == System.Net.HttpStatusCode.NotFound ? ApiResponse.NotFound : ApiResponse.Error;
+            ApiResponse = 
+                httpRequestException.StatusCode == System.Net.HttpStatusCode.NotFound 
+                ? ApiResponseType.NotFound 
+                : ApiResponseType.Error;
         }
 
         public ApiResult(Exception exception)
         {
             ApiValue = default!;
             Exception = exception;
-            _apiResponse = ApiResponse.Error;
+            ApiResponse = ApiResponseType.Error;
         }
 
         public static implicit operator ApiResult<T>(T? value)
         {
-            if (value != null)
-            {
-                return new ApiResult<T>(value);
-            }
-            else
-            {
-                return new ApiResult<T>();
-            }
+            return 
+                value != null ? new ApiResult<T>(value) : new ApiResult<T>();
         }
 
-        public static implicit operator ApiResult<T>(Exception exception)
-        {
-            return new ApiResult<T>(exception);
-        }
+        public static implicit operator ApiResult<T>(Exception exception) 
+            => new(exception);
+
+        public static implicit operator ApiResult<T>(HttpRequestException httpRequestException) 
+            => new(httpRequestException);
     }
 }

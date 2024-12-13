@@ -22,13 +22,15 @@ namespace Pokedex.Core.Services
             _mapper = mapper;
         }
 
+        /// <inheritdoc/>
         public async Task<ApiResult<PokemonResult>> GetAsync(string pokemonName)
         {
             var pokemonResult = await _pokeApiClient.GetAsync(pokemonName);
 
-            return _mapper.Map<PokemonResult>(pokemonResult.ApiValue);
+            return _mapper.Map<ApiResult<PokemonResult>>(pokemonResult);
         }
 
+        /// <inheritdoc/>
         public async Task<ApiResult<PokemonResult>> GetTranslatedAsync(string pokemonName)
         {
             var pokemonResult = await GetAsync(pokemonName);
@@ -44,13 +46,20 @@ namespace Pokedex.Core.Services
                 }
                 else
                 {
-                    return translationResult.Exception;
+                    throw new ApplicationException("Invalid translation", translationResult.Exception);
                 }
             }
 
             return pokemonResult;
         }
 
+        /// <summary>
+        /// Retrieve the correct translation.
+        /// By Yoda for cave or legendary Pokemon.
+        /// By Shakespeare for the others type of pokemons.
+        /// </summary>
+        /// <param name="pokemon">Pokemon to get the translation.</param>
+        /// <returns>A <see cref="Translation"/>.</returns>
         private Task<ApiResult<Translation>> GetTranslationAsync(PokemonResult pokemon)
         {
             if (pokemon.IsCave || pokemon.IsLegendary)
