@@ -17,5 +17,5 @@ You can run using docker:
 
 You can run using the cmd line:
 1. Install .net 8 sdk
-2. Go to the root project folder using your cmd
+2. Go to the ./Pokedex.Api project folder using your cmd
 3. Type: dotnet run -- --urls "http://localhost:5000" 
