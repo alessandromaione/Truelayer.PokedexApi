@@ -38,3 +38,4 @@ Next improvements:
 3. Authentication to the web api should be added.
 4. Retry policy could be added.
 5. Cache layer should be added to the endpoints.
+6. External Api health checks
