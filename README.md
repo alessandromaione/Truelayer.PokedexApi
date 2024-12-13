@@ -2,6 +2,11 @@
 
 This is a .net 8 api, that expose some endpoint to get informations about pokemons.
 
+I tried to create a basic layered web api.
+Main Web Api: expose endpoints and return him dto result
+The Core: business logic and all the abstractions are declared there. It will not have any dependencies on other layers.
+The Infrastructure: useful to communicate with external database, web api and so on.
+
 Endpoints:
 1. /pokemon/pokemonname
 2. /pokemon/translated/pokemonname
@@ -26,3 +31,10 @@ Yuo can run unit test:
 ---
 1. Go to the ./Pokedex.UnitTest folder using your cmd
 2. Type: dotnet test
+
+Next improvements:
+Create the TranslationService and move the logic inside, so it will be also testable.
+Modify the NotFound errors to reduce some code that is duplicated.
+Authentication to the web api should be added.
+Retry policy could be added.
+Cache layer should be added to the endpoints.
