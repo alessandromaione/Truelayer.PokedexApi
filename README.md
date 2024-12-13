@@ -7,7 +7,7 @@ Endpoints:
 2. /pokemon/translated/pokemonname
 
 You can use it also using swagger to the endpoint: http://localhost:5000/swagger
-
+---
 You can run using docker:
 1. Install docker
 2. Go to the root project folder using you cmd
@@ -19,3 +19,7 @@ You can run using the cmd line:
 1. Install .net 8 sdk
 2. Go to the ./Pokedex.Api project folder using your cmd
 3. Type: dotnet run -- --urls "http://localhost:5000" 
+
+Yuo can run unit test:
+1. Go to the ./Pokedex.UnitTest folder using your cmd
+2. Type: dotnet test
