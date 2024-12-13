@@ -33,8 +33,8 @@ Yuo can run unit test:
 2. Type: dotnet test
 
 Next improvements:
-Create the TranslationService and move the logic inside, so it will be also testable.
-Modify the NotFound errors to reduce some code that is duplicated.
-Authentication to the web api should be added.
-Retry policy could be added.
-Cache layer should be added to the endpoints.
+1. Create the TranslationService and move the logic inside, so it will be also testable.
+2. Modify the NotFound errors to reduce some code that is duplicated.
+3. Authentication to the web api should be added.
+4. Retry policy could be added.
+5. Cache layer should be added to the endpoints.
